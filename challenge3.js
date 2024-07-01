@@ -11,7 +11,6 @@ Links to an external site.-  Links to an external site.Links to an external site
 - www.kra.go.ke/en/individual/calculate-tax/calculating-tax/payeLinks
 */
 
-
 //function to calculate the income tax
 function incomeTax(basicSalary) {
 //To make the function easier to understand, we will introduce a variable of ranges from the first range in the tax bracket to the last range and multiply it to the percentage taxed
@@ -31,7 +30,7 @@ let range4 = (800000- 500001) * 0.325;
     }else if(basicSalary >= 500001 && basicSalary <= 800000) {
         return 0.325 * (basicSalary - 500001) + (range3)+ (range2) + (range1);
     }else{
-        return 0.35 * (basicSalary - 800000) + (0.325) + (range3) + (range2) + (range1);
+        return 0.35 * (basicSalary - 800000) + (range4) + (range3) + (range2) + (range1);
     } 
     
 }
@@ -78,16 +77,36 @@ function NHIF(basicSalary){
 }
 console.log(NHIF(4000));
 
+//function to calculate the NSSF deductions
+//To make the function easier to understand, we will introduce a variable of range from 0 to 7000
+let range5 = 0.06 * 7000
+function NSSF(basicSalary) {
+    if(basicSalary <= 7000) {
+        return 0.06 * basicSalary;
+    }else if(basicSalary >= 7001 && basicSalary <= 36000) {
+        return 0.06 * (basicSalary -7001) + (range5);
+    }else{
+        return 0.06 * 36000}
+}
+console.log(NSSF(30000))
+
 //To calculate the net pay
 let basicSalary;
 let allowances;
-const NSSF = 1080;
-const personalRelief = 2400;
+let personalRelief = 2400;
 
-function netPay(){
-    return basicSalary + allowances + personalRelief - NSSF - incomeTax(basicSalary)- NHIF(basicSalary)
-}
+
 //For example: 
-basicSalary = 30000;
+basicSalary = 50000;
 allowances = 0;
-console.log(netPay());
+let netPay=(basicSalary + allowances + personalRelief - NSSF(basicSalary) - incomeTax(basicSalary)- NHIF(basicSalary))
+
+// to print these values in an object
+const netPayCalculator = {
+    GrossSalary: basicSalary,
+    Payee: incomeTax(basicSalary),
+    NSSF : NSSF(basicSalary),
+    NHIF : NHIF(basicSalary),
+    Net: netPay,
+}
+console.log(netPayCalculator)
