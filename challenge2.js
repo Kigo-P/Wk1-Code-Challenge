@@ -5,7 +5,10 @@ Write a program that takes the speed of a car as input e.g 80. If the speed is l
 
    > For example, if the speed is 80, it should print: “Points: 2”. If the driver gets more than 12 points, the function should print: “License suspended”.
 */
+var prompt = require('prompt-sync')();
 
+let speedInput = prompt('Enter speed:');
+let speed = parseFloat(speedInput)
 function isSpeed(speed){
     switch(true){
         case (speed <= 70):
@@ -52,6 +55,7 @@ function isSpeed(speed){
     }
 
 }
+isSpeed(speed);
 /* In the question above we have been asked to write a fuction whose input is speed and the output is to print the demerit points based on the speed.
 The solution comprises of:
 a. A switch statement with various cases based on speed.The switch is a boolean value of true if the speed is within the specified limit.
@@ -61,23 +65,3 @@ d. After every case there is a break which is used to stop the switch from conti
 e. There is a default statement which is the last result if the switch statement does not find a match.
 */
 // To test the above so that we know whether it will print the correct demerit points, lets use the following arguments:
-isSpeed(53);
-isSpeed(70);
-isSpeed(71);
-isSpeed(80);
-isSpeed(84);
-isSpeed(87);
-isSpeed(90);
-isSpeed(92);
-isSpeed(94);
-isSpeed(97);
-isSpeed(101);
-isSpeed(106);
-isSpeed(112);
-isSpeed(115);
-isSpeed(117);
-isSpeed(120);
-isSpeed(124);
-isSpeed(127);
-isSpeed(130);
-isSpeed(131);

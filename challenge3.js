@@ -12,6 +12,24 @@ Links to an external site.-  Links to an external site.Links to an external site
 */
 
 //function to calculate the income tax
+var prompt = require('prompt-sync')();
+//The function below prompts the user to only put positive values and prints a message: Enter a positive value. 
+function promptPositive(message) {
+    let input = parseFloat(prompt(message));
+    
+    if (input < 0) {
+        console.log("Enter a positive value");
+        return promptPositive(message); 
+    }
+    
+    return input;
+}
+let basicSalaryInput = promptPositive('Enter basic salary: ');
+let basicSalary = parseFloat(basicSalaryInput);
+let benefitsInput = promptPositive('Enter benefits: ');
+let benefits = parseFloat(benefitsInput);
+// lets input our variables to calculate the gross salary
+let grossSalary = basicSalary + benefits
 function incomeTax(basicSalary) {
 //To make the function easier to understand, we will introduce a variable of ranges from the first range in the tax bracket to the last range and multiply it to the percentage taxed
 //The reason we have done this is because in the  next tax bracket we have to compute the previous tax bracket(s) range multiplied to the rate of tax which is later added to the current tax 
@@ -21,20 +39,20 @@ let range3 = (500000 -32334) * 0.3;
 let range4 = (800000- 500001) * 0.325; 
 
 //introducing if statements to calculate income tax
-    if(basicSalary <= 24000) {
-        return 0.1 * 24000;
-    }else if(basicSalary >= 24001 && basicSalary <= 32333) {
-        return 0.25 * (basicSalary -24001) + (range1);
-    }else if(basicSalary >= 32334 && basicSalary <= 500000) {
-        return 0.3 * (basicSalary - 32334) + (range2) + (range1);
-    }else if(basicSalary >= 500001 && basicSalary <= 800000) {
-        return 0.325 * (basicSalary - 500001) + (range3)+ (range2) + (range1);
+    if(grossSalary <= 24000) {
+        return Math.round(0.1 * 24000);//we have math rounded all the figures to ensure that the user does not see many decimal points
+    }else if(grossSalary >= 24001 && grossSalary <= 32333) {
+        return Math.round(0.25 * (grossSalary -24001) + (range1));
+    }else if(grossSalary >= 32334 && grossSalary <= 500000) {
+        return Math.round(0.3 * (grossSalary - 32334) + (range2) + (range1));
+    }else if(grossSalary >= 500001 && basicSalary <= 800000) {
+        return Math.round(0.325 * (grossSalary - 500001) + (range3)+ (range2) + (range1));
     }else{
-        return 0.35 * (basicSalary - 800000) + (range4) + (range3) + (range2) + (range1);
+        return Math.round(0.35 * (grossSalary - 800000) + (range4) + (range3) + (range2) + (range1));
     } 
     
 }
-console.log(incomeTax(50000));
+
 
 //function to calculate the NHIF deductions
 function NHIF(basicSalary){
@@ -75,38 +93,35 @@ function NHIF(basicSalary){
     }
 
 }
-console.log(NHIF(4000));
+
 
 //function to calculate the NSSF deductions
 //To make the function easier to understand, we will introduce a variable of range from 0 to 7000
 let range5 = 0.06 * 7000
 function NSSF(basicSalary) {
     if(basicSalary <= 7000) {
-        return 0.06 * basicSalary;
+        return Math.round (0.06 * basicSalary);
     }else if(basicSalary >= 7001 && basicSalary <= 36000) {
-        return 0.06 * (basicSalary -7001) + (range5);
+        return Math.round (0.06 * (basicSalary -7001) + (range5));
     }else{
-        return 0.06 * 36000}
+        return Math.round (0.06 * 36000)}
 }
-console.log(NSSF(30000))
+
 
 //To calculate the net pay
-let basicSalary;
-let allowances;
-let personalRelief = 2400;
+//let basicSalary;
 
-
+const personalRelief = 2400;
 //For example: 
-basicSalary = 50000;
-allowances = 0;
-let netPay=(basicSalary + allowances + personalRelief - NSSF(basicSalary) - incomeTax(basicSalary)- NHIF(basicSalary))
+
+let netPay =(grossSalary + personalRelief - NSSF(basicSalary) - incomeTax(basicSalary)- NHIF(basicSalary))
 
 // to print these values in an object
 const netPayCalculator = {
-    GrossSalary: basicSalary,
+    GrossSalary: grossSalary,
     Payee: incomeTax(basicSalary),
     NSSF : NSSF(basicSalary),
     NHIF : NHIF(basicSalary),
-    Net: netPay,
+    Net: Math.round(netPay),
 }
 console.log(netPayCalculator)
